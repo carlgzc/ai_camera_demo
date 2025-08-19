@@ -31,7 +31,7 @@ class OpenAIService: AIService {
                     let requestBody = OpenAIVisionRequest(
                         model: modelID,
                         messages: [.init(role: "user", content: content)],
-                        max_tokens: 300,
+                        max_completion_tokens: 4096,
                         stream: true
                     )
                     
@@ -103,7 +103,6 @@ class OpenAIService: AIService {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try! JSONSerialization.data(withJSONObject: requestBody)
         
-        // ✅ 重构: 使用新的辅助方法
         let (resData, _) = try await performRequest(req)
         
         let json = try JSONDecoder().decode(OpenAIImageResponse.self, from: resData)
@@ -123,7 +122,6 @@ class OpenAIService: AIService {
         throw NSError(domain: "OpenAIService", code: -999, userInfo: [NSLocalizedDescriptionKey: "OpenAI Sora API 当前不可用。此功能尚无法实现。"])
     }
     
-    // ✅ 重构: 新增私有辅助方法，用于统一处理网络请求，提高代码一致性
     private nonisolated func performRequest(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
         let (data, res) = try await URLSession.shared.data(for: request)
         guard let httpRes = res as? HTTPURLResponse else {

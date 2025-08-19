@@ -34,26 +34,10 @@ struct OpenAIVisionRequest: Encodable {
     
     let model: String
     let messages: [Message]
-    let max_tokens: Int?
-    let stream: Bool? // Optional for streaming responses
+    let max_completion_tokens: Int?
+    let stream: Bool?
 }
 
-// MARK: - OpenAI Vision Response Model (Non-streaming)
-struct OpenAIVisionResponse: Decodable {
-    struct Choice: Decodable {
-        struct Message: Decodable {
-            let role: String
-            let content: String
-        }
-        let message: Message
-    }
-    
-    let id: String
-    let model: String
-    let choices: [Choice]
-}
-
-// ✅ 新增: 用于解析 OpenAI 流式响应的模型
 // MARK: - OpenAI Vision Stream Response Models
 struct OpenAIStreamResponse: Decodable {
     let id: String

@@ -60,7 +60,7 @@ class AppSettings: ObservableObject {
         static let apiKey = ""
         static let openAIAPIKey = ""
         static let vlmModelID = "ep-20250719131318-27rck"
-        static let openAIVLMModelID = "gpt-4o"
+        static let openAIVLMModelID = "gpt-5-mini"
         static let imageEditModelID = "ep-20250725101032-2zcfj"
         static let openAIImageModelID = "dall-e-3"
         static let videoGenModelID = "doubao-seedance-1-0-pro-250528"
