@@ -22,7 +22,8 @@ class OpenAIService: AIService {
                         throw NSError(domain: "OpenAIService", code: -1002, userInfo: [NSLocalizedDescriptionKey: "OpenAI API Key 为空，请在App内设置。"])
                     }
                     
-                    var content: [OpenAIVisionRequest.Message.Content] = [.text(prompt)]
+                    // ✅ 修改: 使用新的、正确的 ContentPart 模型来构建 content 数组
+                    var content: [OpenAIVisionRequest.ContentPart] = [.text(prompt)]
                     for data in imagesData {
                         let base64Image = "data:image/jpeg;base64,\(data.base64EncodedString())"
                         content.append(.imageUrl(url: base64Image, detail: "auto"))

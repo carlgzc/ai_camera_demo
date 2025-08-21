@@ -3,39 +3,48 @@ import Foundation
 
 // MARK: - OpenAI Vision Request Model
 struct OpenAIVisionRequest: Encodable {
-    struct Message: Encodable {
-        struct Content: Encodable {
-            enum ContentType: String, Encodable {
-                case text
-                case imageUrl = "image_url"
-            }
+    
+    struct ContentPart: Encodable {
+        let type: String
+        let text: String?
+        let imageUrl: ImageUrl?
 
-            let type: ContentType
-            let text: String?
-            let imageUrl: ImageUrl?
-            
-            struct ImageUrl: Encodable {
-                let url: String
-                let detail: String?
-            }
-
-            static func text(_ text: String) -> Content {
-                return Content(type: .text, text: text, imageUrl: nil)
-            }
-            
-            static func imageUrl(url: String, detail: String = "low") -> Content {
-                return Content(type: .imageUrl, text: nil, imageUrl: .init(url: url, detail: detail))
-            }
+        enum CodingKeys: String, CodingKey {
+            case type
+            case text
+            case imageUrl = "image_url"
         }
         
+        static func text(_ text: String) -> ContentPart {
+            return ContentPart(type: "text", text: text, imageUrl: nil)
+        }
+        
+        static func imageUrl(url: String, detail: String = "auto") -> ContentPart {
+            return ContentPart(type: "image_url", text: nil, imageUrl: .init(url: url, detail: detail))
+        }
+    }
+
+    struct ImageUrl: Encodable {
+        let url: String
+        let detail: String?
+    }
+    
+    struct Message: Encodable {
         let role: String
-        let content: [Content]
+        let content: [ContentPart]
     }
     
     let model: String
     let messages: [Message]
     let max_completion_tokens: Int?
     let stream: Bool?
+    
+    // ✅ FIX: Changed the coding key from "max_tokens" back to "max_completion_tokens"
+    // to match the specific model's API requirements.
+    enum CodingKeys: String, CodingKey {
+        case model, messages, stream
+        case max_completion_tokens
+    }
 }
 
 // MARK: - OpenAI Vision Stream Response Models

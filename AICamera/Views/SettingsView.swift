@@ -27,6 +27,8 @@ struct SettingsView: View {
     @State private var tempHealthAssistantPrompt: String = ""
     @State private var tempImageEditPrompt: String = ""
     @State private var tempVideoStoryPrompt: String = ""
+    // ✅ 修改: 绑定新的 Prompt
+    @State private var tempMenuAssistantPrompt: String = ""
     
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -58,6 +60,8 @@ struct SettingsView: View {
                     promptEditor(for: .encyclopedia, text: $tempEncyclopediaPrompt)
                     promptEditor(for: .storyteller, text: $tempStorytellerPrompt)
                     promptEditor(for: .healthAssistant, text: $tempHealthAssistantPrompt)
+                    // ✅ 修改: 显示新的 Prompt 编辑器
+                    promptEditor(for: .menuAssistant, text: $tempMenuAssistantPrompt)
                 }
                 
                 Section {
@@ -168,6 +172,8 @@ struct SettingsView: View {
         tempHealthAssistantPrompt = settings.healthAssistantPrompt
         tempImageEditPrompt = settings.imageEditPrompt
         tempVideoStoryPrompt = settings.videoStoryPrompt
+        // ✅ 修改: 加载菜单助手 Prompt
+        tempMenuAssistantPrompt = settings.menuAssistantPrompt
     }
     
     private func saveSettings() {
@@ -190,6 +196,8 @@ struct SettingsView: View {
         settings.healthAssistantPrompt = tempHealthAssistantPrompt
         settings.imageEditPrompt = tempImageEditPrompt
         settings.videoStoryPrompt = tempVideoStoryPrompt
+        // ✅ 修改: 保存菜单助手 Prompt
+        settings.menuAssistantPrompt = tempMenuAssistantPrompt
         
         alertMessage = "设置已保存成功！"
         showAlert = true

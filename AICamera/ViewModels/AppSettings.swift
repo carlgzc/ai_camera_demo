@@ -24,6 +24,8 @@ class AppSettings: ObservableObject {
     @Published var imageEditPrompt: String { didSet { save() } }
     @Published var videoStoryPrompt: String { didSet { save() } }
     @Published var highlightReelPrompt: String { didSet { save() } }
+    // ✅ 修改: 新增菜单助手 Prompt
+    @Published var menuAssistantPrompt: String { didSet { save() } }
     
     // Feature Toggles
     @Published var isDeepThinkingEnabled: Bool { didSet { save() } }
@@ -52,6 +54,7 @@ class AppSettings: ObservableObject {
         static let highlightReelPrompt = "highlightReelPrompt_v1"
         static let isDeepThinkingEnabled = "isDeepThinkingEnabled_v3"
         static let isAutoReadEnabled = "isAutoReadEnabled_v3"
+        static let menuAssistantPrompt = "menuAssistantPrompt_v1"
     }
     
     // ✅ 优化: 更新 Prompts，指示 AI 寻找视觉标记，而不是文字坐标。
@@ -77,6 +80,8 @@ class AppSettings: ObservableObject {
         static let imageEdit = "请根据场景生成一个宫崎骏风格的卡通图片"
         static let videoStory = "请化身为一位电影导演，用一句话的电影化描述（logline）来概括这张图片的核心故事或情感瞬间，这将作为视频创作的剧本。"
         static let highlightReel = "你是一位顶级的社交媒体视频编剧。请根据我提供的这一系列图片（它们按时间顺序排列），讲述一个连贯、引人入- 入胜的故事或总结这次经历。你的输出需要包含三部分：一个吸引人的'title'，一段适合作为视频旁白的'caption'，以及一组'hashtags'（数组形式）。请严格使用JSON格式返回结果。"
+        // ✅ 修改: 新增菜单助手 Prompt
+        static let menuAssistant = "你是一位专业的菜单助手，专为中国游客提供本地化用餐建议。请根据眼前的菜单图片，以中文进行以下操作：1. 识别并翻译菜单上的所有菜名。2. 详细列出你认为适合中国人口味的3-5道菜肴。3. 明确指出哪些菜肴包含羊肉或重口味的奶酪（如蓝纹奶酪）并解释原因，以帮助我避免它们。4. 你的回答需要格式优美，突出推荐菜肴。\(secretInstruction)"
     }
 
     init() {
@@ -99,6 +104,8 @@ class AppSettings: ObservableObject {
         imageEditPrompt = userDefaults.string(forKey: Keys.imageEditPrompt) ?? DefaultValues.imageEdit
         videoStoryPrompt = userDefaults.string(forKey: Keys.videoStoryPrompt) ?? DefaultValues.videoStory
         highlightReelPrompt = userDefaults.string(forKey: Keys.highlightReelPrompt) ?? DefaultValues.highlightReel
+        // ✅ 修改: 读取菜单助手 Prompt
+        menuAssistantPrompt = userDefaults.string(forKey: Keys.menuAssistantPrompt) ?? DefaultValues.menuAssistant
         isDeepThinkingEnabled = userDefaults.object(forKey: Keys.isDeepThinkingEnabled) as? Bool ?? false
         isAutoReadEnabled = userDefaults.object(forKey: Keys.isAutoReadEnabled) as? Bool ?? false
     }
@@ -122,6 +129,8 @@ class AppSettings: ObservableObject {
         userDefaults.set(imageEditPrompt, forKey: Keys.imageEditPrompt)
         userDefaults.set(videoStoryPrompt, forKey: Keys.videoStoryPrompt)
         userDefaults.set(highlightReelPrompt, forKey: Keys.highlightReelPrompt)
+        // ✅ 修改: 保存菜单助手 Prompt
+        userDefaults.set(menuAssistantPrompt, forKey: Keys.menuAssistantPrompt)
         userDefaults.set(isDeepThinkingEnabled, forKey: Keys.isDeepThinkingEnabled)
         userDefaults.set(isAutoReadEnabled, forKey: Keys.isAutoReadEnabled)
     }
@@ -145,6 +154,8 @@ class AppSettings: ObservableObject {
         imageEditPrompt = DefaultValues.imageEdit
         videoStoryPrompt = DefaultValues.videoStory
         highlightReelPrompt = DefaultValues.highlightReel
+        // ✅ 修改: 重置菜单助手 Prompt
+        menuAssistantPrompt = DefaultValues.menuAssistant
         isDeepThinkingEnabled = false
         isAutoReadEnabled = false
         save()
@@ -159,6 +170,8 @@ class AppSettings: ObservableObject {
         case .encyclopedia: return encyclopediaPrompt
         case .storyteller: return storytellerPrompt
         case .healthAssistant: return healthAssistantPrompt
+        // ✅ 修改: 返回菜单助手 Prompt
+        case .menuAssistant: return menuAssistantPrompt
         }
     }
 }

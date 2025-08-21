@@ -122,6 +122,7 @@ enum InspirationState: Equatable {
     case idle, capturing, thinking, reasoning, streaming, finished, error(String)
 }
 
+// ✅ 修改: 新增 menuAssistant
 enum InspirationPersona: String, CaseIterable, Identifiable, Codable {
     case doubaoAssistant = "灵感助理"
     case photographyMaster = "光影诗人"
@@ -130,6 +131,7 @@ enum InspirationPersona: String, CaseIterable, Identifiable, Codable {
     case encyclopedia = "博物学者"
     case storyteller = "织梦者"
     case healthAssistant = "生活禅师"
+    case menuAssistant = "菜单助手"
     
     var id: String { self.rawValue }
     
@@ -142,6 +144,7 @@ enum InspirationPersona: String, CaseIterable, Identifiable, Codable {
         case .encyclopedia: "book.closed.fill"
         case .storyteller: "quote.bubble.fill"
         case .healthAssistant: "leaf.fill"
+        case .menuAssistant: "fork.knife"
         }
     }
 }
